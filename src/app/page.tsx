@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Mail, ArrowRight, Instagram, Twitter, Youtube, Menu, X } from 'lucide-react';
 
 const events = [
@@ -48,15 +48,26 @@ function App() {
       </nav>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-neutral-950 pt-24 px-6 md:hidden">
-          <div className="flex flex-col space-y-6 text-xl font-display">
-            <a href="#about" onClick={() => setMobileMenuOpen(false)}>About</a>
-            <a href="#events" onClick={() => setMobileMenuOpen(false)}>Events</a>
-            <a href="#book" onClick={() => setMobileMenuOpen(false)} className="text-amber-500">Book Femilevite</a>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="fixed inset-y-0 right-0 w-[80%] max-w-sm z-40 bg-neutral-950/80 backdrop-blur-md pt-28 px-8 md:hidden shadow-2xl border-l border-white/10"
+          >
+            <div className="flex flex-col space-y-8 text-2xl font-display items-end">
+              <a href="#about" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500 transition-colors">About</a>
+              <a href="#events" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500 transition-colors">Events</a>
+              <a href="#about" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-500 transition-colors">Music</a>
+              <a href="#book" onClick={() => setMobileMenuOpen(false)} className="px-8 py-3 bg-white text-black rounded-full hover:bg-amber-500 hover:text-black transition-all font-bold text-lg text-center mt-4 w-fit">
+                Book the Band
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden bg-neutral-950">
@@ -87,7 +98,7 @@ function App() {
               FEMI<span className="text-transparent border-text" style={{ WebkitTextStroke: '2px white' }}>LEVITE</span>
             </h1>
             <p className="text-lg md:text-xl text-neutral-300 max-w-2xl mx-auto mb-10 font-light">
-              I am Femilevite, and together with my world-class band, we don't just play music—we bring your events to life with an unforgettable atmosphere.
+              I am Femilevite, and together with my world-class band, we don't just play music, we bring your events to life with an unforgettable atmosphere.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a href="#book" className="px-8 py-4 bg-amber-500 text-black rounded-full font-bold hover:bg-yellow-400 transition-colors flex items-center gap-2 w-full sm:w-auto justify-center">
